@@ -8,16 +8,17 @@ export async function POST(req) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
+    console.log("Webhook secret not found")
     throw new Error(
       'Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local'
     );
   }
-
+  console.log("Webhook secret found")
   // Get the headers
-  const headerPayload = headers();
-  const svix_id = headerPayload.get('svix-id');
-  const svix_timestamp = headerPayload.get('svix-timestamp');
-  const svix_signature = headerPayload.get('svix-signature');
+  const headerPayload = await headers();
+  const svix_id =  headerPayload.get('svix-id');
+  const svix_timestamp =  headerPayload.get('svix-timestamp');
+  const svix_signature =  headerPayload.get('svix-signature');
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
@@ -79,6 +80,7 @@ export async function POST(req) {
         } catch (error) {
           console.log('Error updating user metadata:', error);
         }
+        console.log('User created');
       }
     } catch (error) {
       console.log('Error creating or updating user:', error);
@@ -98,7 +100,7 @@ export async function POST(req) {
         status: 400,
       });
     }
+    console.log("user deleted")
   }
-
   return new Response('', { status: 200 });
 }
