@@ -19,7 +19,7 @@ export default function FooterCom() {
               href='/'
               className='self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white'
             >
-              <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
+              <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 rounded-lg text-white'>
                 Tawkeer&apos;s
               </span>
               Blog
@@ -41,7 +41,7 @@ export default function FooterCom() {
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  Sahand&apos;s Blog
+                  Tawkeer&apos;s Blog
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
@@ -49,13 +49,12 @@ export default function FooterCom() {
               <Footer.Title title='Follow us' />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href='https://www.github.com/sahandghavidel'
+                  href='https://github.com/tawkeer1'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
                   Github
                 </Footer.Link>
-                <Footer.Link href='#'>Discord</Footer.Link>
               </Footer.LinkGroup>
             </div>
             <div>
@@ -71,18 +70,16 @@ export default function FooterCom() {
         <div className='w-full sm:flex sm:items-center sm:justify-between'>
           <Footer.Copyright
             href='#'
-            by="Sahand's blog"
+            by="Tawkeer's blog"
             year={new Date().getFullYear()}
           />
           <div className='flex gap-6 sm:mt-0 mt-4 sm:justify-center'>
-            <Footer.Icon href='#' icon={BsFacebook} />
-            <Footer.Icon href='#' icon={BsInstagram} />
-            <Footer.Icon href='#' icon={BsTwitter} />
+            <Footer.Icon href='https://www.facebook.com/profile.php?id=100086531005168' icon={BsFacebook} />
+            <Footer.Icon href='http://instagram.com/towqeer_ahmad/' icon={BsInstagram} />
             <Footer.Icon
-              href='https://github.com/sahandghavidel'
+              href='https://github.com/tawkeer1'
               icon={BsGithub}
             />
-            <Footer.Icon href='#' icon={BsDribbble} />
           </div>
         </div>
       </div>
