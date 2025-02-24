@@ -54,21 +54,29 @@ export async function POST(req) {
   // For this guide, you simply log the payload to the console
   const { id } = evt?.data;
   const eventType = evt?.type;
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log('Webhook body:', body);
+  // console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+  // console.log('Webhook body:', body);
 
   if (eventType === 'user.created' || eventType === 'user.updated') {
-    const { id, first_name, last_name, image_url, email_addresses, username } =
-      evt?.data;
+    const { id, first_name, last_name, image_url, email_addresses, username, external_accounts } = evt?.data;
+    
+    // Extract user details
+    const googleAccount = external_accounts?.find(acc => acc.provider === "oauth_google");
+    const userFirstName = first_name || googleAccount?.first_name || "";
+    const userLastName = last_name || googleAccount?.last_name || "";
+    const email = email_addresses?.[0]?.email_address || googleAccount?.email_address || "";
+    const userImage = image_url || googleAccount?.image_url || "";
+    const userUsername = username || email?.split('@')[0] || "";
+  
+    // Ensure email exists
+    if (!email) {
+      console.error("No email found in user data");
+      return new Response('Error: No email found', { status: 400 });
+    }
+  
     try {
-      const user = await createOrUpdateUser(
-        id,
-        first_name,
-        last_name,
-        image_url,
-        email_addresses,
-        username
-      );
+      const user = await createOrUpdateUser(id, userFirstName, userLastName, userImage, email, userUsername);
+  
       if (user && eventType === 'user.created') {
         try {
           await clerkClient.users.updateUserMetadata(id, {
@@ -84,11 +92,10 @@ export async function POST(req) {
       }
     } catch (error) {
       console.log('Error creating or updating user:', error);
-      return new Response('Error occured', {
-        status: 400,
-      });
+      return new Response('Error occurred', { status: 400 });
     }
   }
+  
 
   if (eventType === 'user.deleted') {
     const { id } = evt?.data;
