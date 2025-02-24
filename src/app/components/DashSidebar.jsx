@@ -1,6 +1,7 @@
 'use client';
 
 import { Sidebar } from 'flowbite-react';
+import { CgAdd } from "react-icons/cg";
 import {
   HiUser,
   HiArrowSmRight,
@@ -30,6 +31,8 @@ export default function DashSidebar() {
   }
 
   return (
+    <>
+      
     <Sidebar className='w-full md:w-56'>
       <Sidebar.Items>
         <Sidebar.ItemGroup className='flex flex-col gap-1'>
@@ -41,6 +44,17 @@ export default function DashSidebar() {
                 as='div'
               >
                 Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
+          {user?.publicMetadata?.isAdmin && (
+            <Link href='/dashboard/create-post'>
+              <Sidebar.Item
+                
+                icon={CgAdd}
+                as='div'
+              >
+                Create a post
               </Sidebar.Item>
             </Link>
           )}
@@ -77,11 +91,13 @@ export default function DashSidebar() {
               </Sidebar.Item>
             </Link>
           )}
+          
           <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer'>
             <SignOutButton />
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
+    </>
   );
 }

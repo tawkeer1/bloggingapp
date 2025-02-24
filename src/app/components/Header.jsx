@@ -97,6 +97,7 @@ export default function Header() {
             Projects
           </Navbar.Link>
         </Link>
+        
       </Navbar.Collapse>
     </Navbar>
   );
