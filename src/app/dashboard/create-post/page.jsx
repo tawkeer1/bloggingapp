@@ -1,192 +1,319 @@
-'use client';
+import { Webhook } from 'svix';
+import { headers } from 'next/headers';
+import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
+import { clerkClient } from '@clerk/nextjs/server';
 
-import { useUser } from '@clerk/nextjs';
-import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+export async function POST(req) {
+  // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
-// https://dev.to/a7u/reactquill-with-nextjs-478b
-import 'react-quill-new/dist/quill.snow.css';
+  if (!WEBHOOK_SECRET) {
+    throw new Error(
+      'Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local'
+    );
+  }
 
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
-import { app } from '@/firebase';
+  // Get the headers
+  const headerPayload = headers();
+  const svix_id = headerPayload.get('svix-id');
+  const svix_timestamp = headerPayload.get('svix-timestamp');
+  const svix_signature = headerPayload.get('svix-signature');
 
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+  // If there are no headers, error out
+  if (!svix_id || !svix_timestamp || !svix_signature) {
+    return new Response('Error occured -- no svix headers', {
+      status: 400,
+    });
+  }
 
-export default function CreatePostPage() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  // Get the body
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
 
-  const [file, setFile] = useState(null);
-  const [imageUploadProgress, setImageUploadProgress] = useState(null);
-  const [imageUploadError, setImageUploadError] = useState(null);
-  const [formData, setFormData] = useState({});
-  const [publishError, setPublishError] = useState(null);
-  const router = useRouter();
-  console.log(formData);
+  // Create a new Svix instance with your secret.
+  const wh = new Webhook(WEBHOOK_SECRET);
 
-  const handleUpdloadImage = async () => {
+  let evt;
+
+  // Verify the payload with the headers
+  try {
+    evt = wh.verify(body, {
+      'svix-id': svix_id,
+      'svix-timestamp': svix_timestamp,
+      'svix-signature': svix_signature,
+    });
+  } catch (err) {
+    console.error('Error verifying webhook:', err);
+    return new Response('Error occured', {
+      status: 400,
+    });
+  }
+
+  // Do something with the payload
+  // For this guide, you simply log the payload to the console
+  const { id } = evt?.data;
+  const eventType = evt?.type;
+  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+  console.log('Webhook body:', body);
+
+  if (eventType === 'user.created' || eventType === 'user.updated') {
+    const { id, first_name, last_name, image_url, email_addresses, username } =
+      evt?.data;
     try {
-      if (!file) {
-        setImageUploadError('Please select an image');
-        return;
-      }
-      setImageUploadError(null);
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + '-' + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageUploadError('Image upload failed');
-          setImageUploadProgress(null);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-            setFormData({ ...formData, image: downloadURL });
-          });
-        }
+      const user = await createOrUpdateUser(
+        id,
+        first_name,
+        last_name,
+        image_url,
+        email_addresses,
+        username
       );
+      if (user && eventType === 'user.created') {
+        try {
+          await clerkClient.users.updateUserMetadata(id, {
+            publicMetadata: {
+              userMongoId: user._id,
+              isAdmin: user.isAdmin,
+            },
+          });
+        } catch (error) {
+          console.log('Error updating user metadata:', error);
+        }
+      }
     } catch (error) {
-      setImageUploadError('Image upload failed');
-      setImageUploadProgress(null);
-      console.log(error);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          userMongoId: user.publicMetadata.userMongoId,
-        }),
+      console.log('Error creating or updating user:', error);
+      return new Response('Error occured', {
+        status: 400,
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setPublishError(data.message);
-        return;
-      }
-      if (res.ok) {
-        setPublishError(null);
-        router.push(`/post/${data.slug}`);
-      }
-    } catch (error) {
-      setPublishError('Something went wrong');
     }
-  };
-
-  if (!isLoaded) {
-    return null;
   }
 
-  if (isSignedIn && user.publicMetadata.isAdmin) {
-    return (
-      <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-        <h1 className='text-center text-3xl my-7 font-semibold'>
-          Create a post
-        </h1>
-        <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-          <div className='flex flex-col gap-4 sm:flex-row justify-between'>
-            <TextInput
-              type='text'
-              placeholder='Title'
-              required
-              id='title'
-              className='flex-1'
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-            />
-            <Select
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-            >
-              <option value='uncategorized'>Select a category</option>
-              <option value='javascript'>JavaScript</option>
-              <option value='reactjs'>React.js</option>
-              <option value='nextjs'>Next.js</option>
-            </Select>
-          </div>
-          <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
-            <FileInput
-              type='file'
-              accept='image/*'
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-            <Button
-              type='button'
-              gradientDuoTone='purpleToBlue'
-              size='sm'
-              outline
-              onClick={handleUpdloadImage}
-              disabled={imageUploadProgress}
-            >
-              {imageUploadProgress ? (
-                <div className='w-16 h-16'>
-                  <CircularProgressbar
-                    value={imageUploadProgress}
-                    text={`${imageUploadProgress || 0}%`}
-                  />
-                </div>
-              ) : (
-                'Upload Image'
-              )}
-            </Button>
-          </div>
-
-          {imageUploadError && (
-            <Alert color='failure'>{imageUploadError}</Alert>
-          )}
-          {formData.image && (
-            <img
-              src={formData.image}
-              alt='upload'
-              className='w-full h-72 object-cover'
-            />
-          )}
-
-          <ReactQuill
-            theme='snow'
-            placeholder='Write something...'
-            className='h-72 mb-12'
-            required
-            onChange={(value) => {
-              setFormData({ ...formData, content: value });
-            }}
-          />
-          <Button type='submit' gradientDuoTone='purpleToPink'>
-            Publish
-          </Button>
-        </form>
-      </div>
-    );
-  } else {
-    return (
-      <h1 className='text-center text-3xl my-7 font-semibold'>
-        You are not authorized to view this page
-      </h1>
-    );
+  if (eventType === 'user.deleted') {
+    const { id } = evt?.data;
+    try {
+      await deleteUser(id);
+    } catch (error) {
+      console.log('Error deleting user:', error);
+      return new Response('Error occured', {
+        status: 400,
+      });
+    }
   }
+
+  return new Response('', { status: 200 });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 'use client';
+
+// import { useUser } from '@clerk/nextjs';
+// import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react';
+
+// import dynamic from 'next/dynamic';
+// import { useState } from 'react';
+// import { useRouter } from 'next/navigation';
+// const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+// // https://dev.to/a7u/reactquill-with-nextjs-478b
+// import 'react-quill-new/dist/quill.snow.css';
+
+// import {
+//   getDownloadURL,
+//   getStorage,
+//   ref,
+//   uploadBytesResumable,
+// } from 'firebase/storage';
+// import { app } from '@/firebase';
+
+// import { CircularProgressbar } from 'react-circular-progressbar';
+// import 'react-circular-progressbar/dist/styles.css';
+
+// export default function CreatePostPage() {
+//   const { isSignedIn, user, isLoaded } = useUser();
+
+//   const [file, setFile] = useState(null);
+//   const [imageUploadProgress, setImageUploadProgress] = useState(null);
+//   const [imageUploadError, setImageUploadError] = useState(null);
+//   const [formData, setFormData] = useState({});
+//   const [publishError, setPublishError] = useState(null);
+//   const router = useRouter();
+//   console.log(formData);
+
+//   const handleUpdloadImage = async () => {
+//     try {
+//       if (!file) {
+//         setImageUploadError('Please select an image');
+//         return;
+//       }
+//       setImageUploadError(null);
+//       const storage = getStorage(app);
+//       const fileName = new Date().getTime() + '-' + file.name;
+//       const storageRef = ref(storage, fileName);
+//       const uploadTask = uploadBytesResumable(storageRef, file);
+//       uploadTask.on(
+//         'state_changed',
+//         (snapshot) => {
+//           const progress =
+//             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+//           setImageUploadProgress(progress.toFixed(0));
+//         },
+//         (error) => {
+//           setImageUploadError('Image upload failed');
+//           setImageUploadProgress(null);
+//         },
+//         () => {
+//           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+//             setImageUploadProgress(null);
+//             setImageUploadError(null);
+//             setFormData({ ...formData, image: downloadURL });
+//           });
+//         }
+//       );
+//     } catch (error) {
+//       setImageUploadError('Image upload failed');
+//       setImageUploadProgress(null);
+//       console.log(error);
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await fetch('/api/post/create', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           ...formData,
+//           userMongoId: user.publicMetadata.userMongoId,
+//         }),
+//       });
+//       const data = await res.json();
+//       if (!res.ok) {
+//         setPublishError(data.message);
+//         return;
+//       }
+//       if (res.ok) {
+//         setPublishError(null);
+//         router.push(`/post/${data.slug}`);
+//       }
+//     } catch (error) {
+//       setPublishError('Something went wrong');
+//     }
+//   };
+
+//   if (!isLoaded) {
+//     return null;
+//   }
+
+//   if (isSignedIn && user.publicMetadata.isAdmin) {
+//     return (
+//       <div className='p-3 max-w-3xl mx-auto min-h-screen'>
+//         <h1 className='text-center text-3xl my-7 font-semibold'>
+//           Create a post
+//         </h1>
+//         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+//           <div className='flex flex-col gap-4 sm:flex-row justify-between'>
+//             <TextInput
+//               type='text'
+//               placeholder='Title'
+//               required
+//               id='title'
+//               className='flex-1'
+//               onChange={(e) =>
+//                 setFormData({ ...formData, title: e.target.value })
+//               }
+//             />
+//             <Select
+//               onChange={(e) =>
+//                 setFormData({ ...formData, category: e.target.value })
+//               }
+//             >
+//               <option value='uncategorized'>Select a category</option>
+//               <option value='javascript'>JavaScript</option>
+//               <option value='reactjs'>React.js</option>
+//               <option value='nextjs'>Next.js</option>
+//             </Select>
+//           </div>
+//           <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
+//             <FileInput
+//               type='file'
+//               accept='image/*'
+//               onChange={(e) => setFile(e.target.files[0])}
+//             />
+//             <Button
+//               type='button'
+//               gradientDuoTone='purpleToBlue'
+//               size='sm'
+//               outline
+//               onClick={handleUpdloadImage}
+//               disabled={imageUploadProgress}
+//             >
+//               {imageUploadProgress ? (
+//                 <div className='w-16 h-16'>
+//                   <CircularProgressbar
+//                     value={imageUploadProgress}
+//                     text={`${imageUploadProgress || 0}%`}
+//                   />
+//                 </div>
+//               ) : (
+//                 'Upload Image'
+//               )}
+//             </Button>
+//           </div>
+
+//           {imageUploadError && (
+//             <Alert color='failure'>{imageUploadError}</Alert>
+//           )}
+//           {formData.image && (
+//             <img
+//               src={formData.image}
+//               alt='upload'
+//               className='w-full h-72 object-cover'
+//             />
+//           )}
+
+//           <ReactQuill
+//             theme='snow'
+//             placeholder='Write something...'
+//             className='h-72 mb-12'
+//             required
+//             onChange={(value) => {
+//               setFormData({ ...formData, content: value });
+//             }}
+//           />
+//           <Button type='submit' gradientDuoTone='purpleToPink'>
+//             Publish
+//           </Button>
+//         </form>
+//       </div>
+//     );
+//   } else {
+//     return (
+//       <h1 className='text-center text-3xl my-7 font-semibold'>
+//         You are not authorized to view this page
+//       </h1>
+//     );
+//   }
+// }
