@@ -100,7 +100,7 @@ export default function CreatePostPage() {
     return null;
   }
 
-  if (isSignedIn) {
+  if (isSignedIn && user.publicMetadata.isAdmin) {
     return (
       <div className='p-3 max-w-3xl mx-auto min-h-screen'>
         <h1 className='text-center text-3xl my-7 font-semibold'>
@@ -124,7 +124,6 @@ export default function CreatePostPage() {
               }
             >
               <option value='uncategorized'>Select a category</option>
-              <option value='General'>General</option>
               <option value='javascript'>JavaScript</option>
               <option value='reactjs'>React.js</option>
               <option value='nextjs'>Next.js</option>
