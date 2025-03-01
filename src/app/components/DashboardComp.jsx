@@ -36,6 +36,9 @@ export default function DashboardComp() {
           setTotalUsers(data.totalUsers);
           setLastMonthUsers(data.lastMonthUsers);
         }
+        else{
+          console.log("User data not available");
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -128,7 +131,7 @@ export default function DashboardComp() {
                         className='w-10 h-10 rounded-full bg-gray-500'
                       />
                     </Table.Cell>
-                    <Table.Cell>{user.username}</Table.Cell>
+                    <Table.Cell>{user.username || "not available"}</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               ))}
