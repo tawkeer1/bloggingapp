@@ -9,10 +9,13 @@ export const connect = async () => {
     return;
   }
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      dbName: 'next-blog',
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log('Connected to MongoDB');
     initialized = true;
-    console.log('MongoDB connection state:', mongoose.connection.readyState);
   } catch (error) {
     console.log('Error connecting to MongoDB:', error);
   }
