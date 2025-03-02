@@ -19,12 +19,12 @@ export const createOrUpdateUser = async (
           firstName: first_name,
           lastName: last_name,
           profilePicture: image_url,
-          email: email_addresses[0].email_address,
+          email: email_addresses?.[0]?.email_address || '',
           username,
         },
       },
       { new: true, upsert: true }
-    ).lean()                //here
+    )                //here
     return user;
   } catch (error) {
     console.log('Error creating or updating user:', error);
