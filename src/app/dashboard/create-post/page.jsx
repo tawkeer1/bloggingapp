@@ -55,7 +55,7 @@ export default function CreatePostPage() {
           setImageUploadProgress(null);
         },
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImageUploadProgress(null);
             setImageUploadError(null);
             setFormData({ ...formData, image: downloadURL });
