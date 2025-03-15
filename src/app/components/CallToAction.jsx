@@ -16,7 +16,7 @@ export default function CallToAction() {
             </Button>
         </div>
          <div>
-            <img className='rounded-lg outline-none w-full' src="/portfolio.jpg" />
+            <img className='rounded-lg outline-none w-full' src="/Portfolio.jpg" />
          </div>
     </div>
   )
