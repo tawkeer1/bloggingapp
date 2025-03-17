@@ -4,7 +4,10 @@ import RecentPosts from "@/app/components/RecentPosts";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "flowbite-react";
 import Link from "next/link";
+import { useEffect } from "react";
+
 export default async function PostPage({ params }) {
+  
   let post = null;
   try {
     const result = await fetch(process.env.URL + "/api/post/get", {
@@ -56,7 +59,7 @@ export default async function PostPage({ params }) {
       ></div>
       
         <Link href="/dashboard/create-post" className="text-center flex justify-center items-center font-semibold ">
-        <p className="border border-gray-500 p-1 rounded-md mb-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500">Create another post</p>
+        <p className="border border-gray-500 p-1 rounded-md mb-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500">Create a post</p>
         </Link>
       
       <div className="max-w-4xl mx-auto w-full">
