@@ -39,3 +39,9 @@ body {
 .dark .post-content a {
   color: red;
 }
+@media screen and (max-width: 340px) {
+  .handle-small {
+    display:none;
+  }
+  
+}
