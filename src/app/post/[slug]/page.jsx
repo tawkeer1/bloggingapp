@@ -4,7 +4,6 @@ import RecentPosts from "@/app/components/RecentPosts";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "flowbite-react";
 import Link from "next/link";
-import { useEffect } from "react";
 
 export default async function PostPage({ params }) {
   
