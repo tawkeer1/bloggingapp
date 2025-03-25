@@ -1,6 +1,7 @@
 'use client';
 
 import { Footer } from 'flowbite-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   BsFacebook,
@@ -15,15 +16,15 @@ export default function FooterCom() {
       <div className='w-full max-w-7xl mx-auto'>
         <div className='grid w-full justify-between sm:flex md:grid-cols-1'>
           <div className='mt-5'>
-            <Link
-              href='/'
-              className='self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white'
-            >
-              <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 rounded-lg text-white'>
-                Tawkeer&apos;s
-              </span>
-              Blog
-            </Link>
+            <div className="max-w-[70px] ml-10">
+                      <Image
+                        src="/logo2.webp"
+                        width={70}
+                        height={70}
+                        alt="logo"
+                        className="px-2 py-1 rounded-[50%]"
+                      ></Image>
+                    </div>
           </div>
           <div className='grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6'>
             <div>
