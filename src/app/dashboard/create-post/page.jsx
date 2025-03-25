@@ -177,7 +177,7 @@ export default function CreatePostPage() {
               setFormData({ ...formData, content: value });
             }}
           />
-          <Button type='submit' gradientDuoTone='purpleToPink'>
+          <Button type='submit' className='bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500'>
             Publish
           </Button>
         </form>
