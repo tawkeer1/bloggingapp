@@ -40,9 +40,41 @@ body {
   color: red;
 }
 
+.containertypewriter{
+  display: inline-block;
+}
+.typed-out {
+  display: inline-block; /* Ensures width respects content */
+  overflow: hidden;
+  border-right: .15em solid cyan;
+  white-space: nowrap;
+  animation: typing 1.5s steps(21) forwards; /* Steps to match character count */
+  font-size: 1.6rem;
+  width: 0;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 21ch; } /* Adjust based on text length */
+}
+
+
 @media screen and (max-width: 340px) {
   .handle-small {
     display:none;
   }
   
 }
+@media screen and (min-width: 1024px) and (max-width: 1170px) {
+  .smalldevicemargin {
+    margin-left: 4rem !important;
+    margin-right: 4rem !important;
+  }
+}
+
+
+
+
