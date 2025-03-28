@@ -5,7 +5,7 @@ const TypeWriterHeader = () => {
   return (
     <>
     {/* inline-block pb-5 text-3xl font-bold lg:text-6xl max-[456px]:hidden */}
-    <div className="smalldevicemargin flex flex-col gap-6 text-center mx-6 lg:mx-auto my-4 p-10 px-6 max-w-6xl bg-gray-800 shadow-xl rounded-lg ">
+    <div className="text-gray-700 smalldevicemargin flex flex-col gap-6 text-center mx-6 lg:mx-auto my-4 p-10 px-6 max-w-6xl bg-gray-200  dark:bg-gray-800 dark:text-white shadow-xl rounded-lg ">
 
     <div className="max-w-6xl containertypewriter text-center p-4">
         

@@ -17,6 +17,8 @@ export default async function Home() {
     console.log('Error getting post:', error);
   }
   return (
+    <>
+    <TypeWriterHeader />
     <div className='flex flex-col justify-center items-center'>
       
       <div className='p-3'>
@@ -32,5 +34,6 @@ export default async function Home() {
         </Link>
       </div>
     </div>
+          </>
   );
 }
