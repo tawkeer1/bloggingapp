@@ -24,6 +24,13 @@ const TypeWriterHeader = () => {
             {/* Shortened text for small screens */}
             <h1 className=" font-bold text-3xl lg:text-6xl max-w-full hidden max-[385px]:block">
               Welcome
+              <span className="inline-flex items-center">
+    <img
+      src="/hello-hey.gif"
+      alt="Attention Animation"
+      className="w-6 h-8 lg:h-12 lg:w-14 ml-2"
+    />
+  </span>
             </h1>
           </div>
         </div>
