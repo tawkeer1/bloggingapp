@@ -44,21 +44,22 @@ body {
   display: inline-block;
 }
 .typed-out {
-  display: inline-block; /* Ensures width respects content */
+  display: inline-block;
   overflow: hidden;
-  border-right: .15em solid cyan;
+  border-right: 0.15em solid cyan; /* Cursor effect */
   white-space: nowrap;
-  animation: typing 1.5s steps(21) forwards; /* Steps to match character count */
   font-size: 1.6rem;
   width: 0;
+  animation: typing 2s steps(30, end) forwards, blink 0.6s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 21ch; } /* Adjust to match text length */
 }
 
 @keyframes blink {
   50% { border-color: transparent; }
-}
-@keyframes typing {
-  from { width: 0ch; }
-  to { width: 21ch; } /* Adjust based on text length */
 }
 
 
