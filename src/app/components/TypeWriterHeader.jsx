@@ -40,7 +40,7 @@ const TypeWriterHeader = () => {
           brought to you through a blog built with Next.js and{" "}
           <a
             href="https://go.clerk.com/fgJHKlt"
-            className="text-teal-500 hover:underline"
+            className="text-gray-500 font-bold hover:underline"
             target="_blank"
           >
             Clerk
@@ -49,7 +49,7 @@ const TypeWriterHeader = () => {
         </p>
         <Link
           href="/search"
-          className="text-xs sm:text-sm text-teal-500 font-bold hover:underline"
+          className="text-xs sm:text-sm text-gray-500 font-bold hover:underline"
         >
           View all posts
         </Link>

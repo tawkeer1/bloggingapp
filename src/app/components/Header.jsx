@@ -10,6 +10,9 @@ import { dark, light } from "@clerk/themes";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { FaHome } from "react-icons/fa";
+import { CiUser } from "react-icons/ci";
+import { GoProjectRoadmap } from "react-icons/go";
 export default function Header() {
   const path = usePathname();
   const { theme, setTheme } = useTheme();
@@ -85,7 +88,10 @@ export default function Header() {
         </SignedIn>
         <SignedOut>
           <Link href="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
+            <Button
+              className="bg-gradient-to-r from-gray-300 to-gray-500 text-gray-900 border-gray-500"
+              outline
+            >
               Sign In
             </Button>
           </Link>
@@ -94,17 +100,34 @@ export default function Header() {
       </div>
       <Navbar.Collapse>
         <Link href="/">
-          <Navbar.Link active={path === "/"} as={"div"}>
+          <Navbar.Link
+            active={path === "/"}
+            className={`flex items-center ${
+              path === "/" ? "bg-gray-200 dark:bg-gray-700" : ""
+            }`}
+            as="div"
+          >
+            <FaHome className="mr-2" />
             Home
           </Navbar.Link>
         </Link>
         <Link href="/about">
-          <Navbar.Link active={path === "/about"} as={"div"}>
+          <Navbar.Link
+            active={path === "/about"}
+            as={"div"}
+            className="flex items-center"
+          >
+            <CiUser className="mr-2" />
             About
           </Navbar.Link>
         </Link>
         <Link href="/projects">
-          <Navbar.Link active={path === "/projects"} as={"div"}>
+          <Navbar.Link
+            active={path === "/projects"}
+            as={"div"}
+            className="flex items-center"
+          >
+            <GoProjectRoadmap className="mr-2" />
             Projects
           </Navbar.Link>
         </Link>
