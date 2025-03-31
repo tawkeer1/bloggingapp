@@ -151,7 +151,7 @@ export default function Search() {
               <option value='javascript'>JavaScript</option>
             </Select>
           </div>
-          <Button type='submit' className='bg-gradient-to-r from-blue-500'>
+          <Button type='submit' className='bg-gradient-to-r from-gray-300 to-gray-500 text-gray-900 border-gray-500'>
             Apply Filters
           </Button>
         </form>
