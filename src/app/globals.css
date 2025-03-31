@@ -46,7 +46,7 @@ body {
 .typed-out {
   display: inline-block;
   overflow: hidden;
-  border-right: 0.15em solid cyan; /* Cursor effect */
+  border-right: 0.15em solid white; /* Cursor effect */
   white-space: nowrap;
   font-size: 1.6rem;
   width: 0;

@@ -63,7 +63,7 @@ export default function Header() {
       </form>
       <Button
         href="/search"
-        className="w-8 h-8  mt-1 sm:mt-0 sm:w-12 sm:h-10 lg:hidden flex justify-center items-center handle-small"
+        className="w-8 h-8  mt-1 sm:mt-0 sm:w-12 sm:h-10 lg:hidden flex justify-center items-center handle-small focus:ring-0 focus:outline-none"
         color="gray"
         pill
       >
@@ -71,7 +71,7 @@ export default function Header() {
       </Button>
       <div className="flex gap-2 md:order-2 ">
         <Button
-          className="w-8 h-8 mt-1.5 sm:mt-0 sm:w-12 sm:h-10 sm:inline flex justify-center items-center handle-small"
+          className="w-8 h-8 mt-1.5 sm:mt-0 sm:w-12 sm:h-10 sm:inline flex justify-center items-center handle-small focus:ring-0 focus:outline-none"
           color="gray"
           pill
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
