@@ -181,7 +181,7 @@ export default function CreatePostPage() {
           />
           <Button
             type="submit"
-            className="bg-gradient-to-r from-gray-300 to-gray-500 text-gray-900 border-gray-500"
+            className="bg-gradient-to-r from-gray-300 to-gray-500 text-gray-900 border-gray-500 focus:ring-0 focus:outline-none"
           >
             Publish
           </Button>
