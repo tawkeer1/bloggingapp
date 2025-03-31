@@ -103,7 +103,7 @@ export default function Header() {
           <Navbar.Link
             active={path === "/"}
             className={`flex items-center ${
-              path === "/" ? "bg-gray-200 dark:bg-gray-700" : ""
+              path === "/" ? "dark:text-gray-200 bg-transparent" : ""
             }`}
             as="div"
           >
@@ -115,7 +115,7 @@ export default function Header() {
           <Navbar.Link
             active={path === "/about"}
             as={"div"}
-            className="flex items-center"
+            className="flex items-center border-none outline-none"
           >
             <CiUser className="mr-2" />
             About
@@ -125,9 +125,9 @@ export default function Header() {
           <Navbar.Link
             active={path === "/projects"}
             as={"div"}
-            className="flex items-center"
+            className="flex items-center border-none outline-none"
           >
-            <GoProjectRoadmap className="mr-2" />
+            <GoProjectRoadmap className="mr-2 " />
             Projects
           </Navbar.Link>
         </Link>
