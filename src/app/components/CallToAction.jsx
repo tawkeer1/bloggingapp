@@ -8,7 +8,7 @@ export default function CallToAction() {
         </h2>
         <p className="text-gray-500 my-2">Checkout my portfolio</p>
         <Button
-          className="rounded-tl-xl rounded-bl-none px-2 py-1 bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 hover:bg-gray-200
+          className="rounded-tl-xl rounded-bl-none px-2 py-1 bg-gradient-to-r from-[#2A2A2A] via-[#3A3A3A] to-[#2A2A2A] hover:from-[#3A3A3A] hover:via-[#4A4A4A] hover:to-[#3A3A3A] transition-all duration-500 
  rounded-lg text-white focus:ring-0 focus:outline-none"
         >
           <a

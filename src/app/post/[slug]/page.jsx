@@ -58,7 +58,7 @@ export default async function PostPage({ params }) {
       ></div>
       
         <Link href="/dashboard/create-post" className="text-center flex justify-center items-center font-semibold ">
-        <p className="border border-gray-500 p-1 rounded-md mb-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500">Create a post</p>
+        <p className="border border-gray-500 p-1 rounded-md mb-2 text-gray-800 dark:text-white">Create a post</p>
         </Link>
       
       <div className="max-w-4xl mx-auto w-full">

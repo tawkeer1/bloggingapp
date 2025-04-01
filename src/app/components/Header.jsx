@@ -36,34 +36,34 @@ export default function Header() {
     }
   }, [searchParams]);
   return (
-    <Navbar className="border-b-2">
+    <Navbar className="border-b-2 sticky top-0 z-50 dark:bg-[#1F1F1F]">
       <Link
         href="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        <div className="max-w-[70px] ml-10">
+        <div className="max-w-[70px] ml-8 lg:ml-10">
           <Image
             src="/logo2.webp"
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             alt="logo"
             className="px-2 py-1 rounded-[50%]"
           ></Image>
         </div>
       </Link>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <TextInput
           type="text"
           placeholder="Search..."
+          className="hidden lg:inline focus:ring-0 focus:outline-none"
           rightIcon={AiOutlineSearch}
-          className="hidden lg:inline"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <Button
         href="/search"
-        className="w-8 h-8  mt-1 sm:mt-0 sm:w-12 sm:h-10 lg:hidden flex justify-center items-center handle-small focus:ring-0 focus:outline-none"
+        className="w-8 h-8 mt-1 sm:mt-0 sm:w-12 sm:h-10 lg:hidden flex justify-center items-center handle-small focus:ring-0 focus:outline-none "
         color="gray"
         pill
       >
@@ -71,7 +71,8 @@ export default function Header() {
       </Button>
       <div className="flex gap-2 md:order-2 ">
         <Button
-          className="w-8 h-8 mt-1.5 sm:mt-0 sm:w-12 sm:h-10 sm:inline flex justify-center items-center handle-small focus:ring-0 focus:outline-none"
+          className="w-8 h-8 mt-1.5 mr-2 font-bold text-xl sm:mt-0 sm:w-12 sm:h-10 sm:inline flex justify-center items-center handle-small focus:ring-0 focus:outline-none 
+          outline-none"
           color="gray"
           pill
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}

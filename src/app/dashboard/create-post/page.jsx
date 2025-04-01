@@ -181,7 +181,7 @@ export default function CreatePostPage() {
           />
           <Button
             type="submit"
-            className="bg-gradient-to-r from-gray-300 to-gray-500 text-gray-900 border-gray-500 focus:ring-0 focus:outline-none"
+            className="bg-gradient-to-r from-[#2A2A2A] via-[#3A3A3A] to-[#2A2A2A] hover:from-[#3A3A3A] hover:via-[#4A4A4A] hover:to-[#3A3A3A] transition-all duration-500 text-gray-300  focus:ring-0 focus:outline-none"
           >
             Publish
           </Button>

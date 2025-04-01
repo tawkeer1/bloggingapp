@@ -12,7 +12,7 @@ export default function ThemeCom({ children }) {
 
   return (
     <div className={theme}>
-      <div className='bg-white text-gray-700 dark:text-gray-200 dark:bg-gray-900 min-h-screen'>
+      <div className='bg-white text-gray-700 dark:text-gray-200 dark:bg-[#1F1F1F] min-h-screen'>
         {children}
       </div>
     </div>

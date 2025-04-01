@@ -21,7 +21,7 @@ export default async function Home() {
   return (
     <div className="relative min-h-screen">
       <TypeWriterHeader />
-      <div className="max-w-[200px] max-h-30 sticky right-0 top-20 z-50">
+      <div className="max-w-[200px] max-h-30 sticky right-0 top-60 z-40">
         <QuoteWrapper />
       </div>
       <div className="flex flex-col justify-center items-center">

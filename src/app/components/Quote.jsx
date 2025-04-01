@@ -29,7 +29,7 @@ const Quote = () => {
             animate={{ x: 0, opacity: 1 }} // Slide in smoothly to center
             exit={{ x: -100, opacity: 0 }} // Slide back & fade out to left
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="rounded-lg bg-gray-200 dark:bg-gray-800 p-4 shadow-lg w-full max-w-xs break-words"
+            className="rounded-lg bg-gray-200 dark:bg-[#2A2A2A] p-4 shadow-lg w-full max-w-xs break-words"
           >
             {showQuote && (
               <MdCancel
