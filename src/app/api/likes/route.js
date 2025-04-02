@@ -20,12 +20,11 @@ export const POST = async (req) => {
       return new Response("Post not found", { status: 404 });
     }
 
-    // Toggle like (add/remove userId from likes array)
     const hasLiked = post.likes.includes(userId);
     if (hasLiked) {
-      post.likes = post.likes.filter((id) => id !== userId); // Unlike
+      post.likes = post.likes.filter((id) => id !== userId); 
     } else {
-      post.likes.push(userId); // Like
+      post.likes.push(userId); 
     }
 
     await post.save();

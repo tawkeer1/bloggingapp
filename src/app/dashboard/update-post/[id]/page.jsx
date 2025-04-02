@@ -205,7 +205,7 @@ export default function UpdatePost() {
               setFormData({ ...formData, content: value });
             }}
           />
-          <Button type='submit' gradientDuoTone='purpleToPink'>
+          <Button type='submit' className="bg-gradient-to-r from-[#2A2A2A] via-[#3A3A3A] to-[#2A2A2A] hover:from-[#3A3A3A] hover:via-[#4A4A4A] hover:to-[#3A3A3A] transition-all duration-500 text-gray-500 dark:text-white">
             Update
           </Button>
           {publishError && (

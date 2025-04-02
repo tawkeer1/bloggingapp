@@ -1,16 +1,16 @@
 "use client";
-import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillLike } from "react-icons/ai";
-import { useUser } from "@clerk/nextjs"; // Get Clerk user info
+import { useUser } from "@clerk/nextjs"; 
 import { Alert } from "flowbite-react";
 
 const Likes = ({ slug, initialLikes = [] }) => {
-  const { user } = useUser(); 
+  const { user } = useUser();
   const userId = user?.id;
 
   const [likes, setLikes] = useState(initialLikes.length);
   const [alreadyLiked, setAlreadyLiked] = useState(initialLikes.includes(userId));
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!userId) return;
@@ -31,9 +31,8 @@ const Likes = ({ slug, initialLikes = [] }) => {
 
   const handleLike = async () => {
     if (!userId) {
-        <Alert color="info">
-        <span className="font-medium">Cannot Like!</span> Login first to like.
-      </Alert>
+      setError("Please log in to like this post.");
+      setTimeout(() => setError(""), 3000);
       return;
     }
 
@@ -55,15 +54,25 @@ const Likes = ({ slug, initialLikes = [] }) => {
   };
 
   return (
-    <div>
-      <span className="flex gap-2 items-center text-lg">
-        <AiFillLike
-          onClick={handleLike}
-          className={`cursor-pointer ${alreadyLiked ? "text-blue-500" : "text-gray-500"}`}
-        />
-        <span>{likes}</span>
-      </span>
-    </div>
+    <>
+      {error && (
+        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm">
+          <Alert color="failure" className="text-center">
+            <span className="font-medium">{error}</span>
+          </Alert>
+        </div>
+      )}
+
+      <div>
+        <span className="flex gap-2 items-center text-lg">
+          <AiFillLike
+            onClick={handleLike}
+            className={`cursor-pointer ${alreadyLiked ? "text-blue-500" : "text-gray-500"}`}
+          />
+          <span>{likes}</span>
+        </span>
+      </div>
+    </>
   );
 };
 
