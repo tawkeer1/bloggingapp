@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       default: 'uncategorized',
     },
+    likes: {
+      type: [String],
+      default: [],
+    },
     slug: {
       type: String,
       required: true,

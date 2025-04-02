@@ -1,9 +1,10 @@
-
 import CallToAction from "@/app/components/CallToAction";
+import Likes from "@/app/components/Likes";
 import RecentPosts from "@/app/components/RecentPosts";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "flowbite-react";
 import Link from "next/link";
+import { AiFillLike } from "react-icons/ai";
 
 export default async function PostPage({ params }) {
   
@@ -46,8 +47,9 @@ export default async function PostPage({ params }) {
         alt={post && post.title}
         className="mt-10 p-3 max-h-[600px] w-full object-cover"
       />
-      <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+      <div className="flex justify-evenly items-center gap-10 p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
+        <Likes slug={params.slug} initialLikes={post.likes}/>
         <span className="italic">
           {post && (post?.content?.length / 1000).toFixed(0)} mins read
         </span>
@@ -56,11 +58,16 @@ export default async function PostPage({ params }) {
         className="p-3 max-w-2xl mx-auto w-full post-content"
         dangerouslySetInnerHTML={{ __html: post?.content }}
       ></div>
-      
-        <Link href="/dashboard/create-post" className="text-center flex justify-center items-center font-semibold ">
-        <p className="border border-gray-500 p-1 rounded-md mb-2 text-gray-800 dark:text-white">Create a post</p>
-        </Link>
-      
+
+      <Link
+        href="/dashboard/create-post"
+        className="text-center flex justify-center items-center font-semibold "
+      >
+        <p className="border border-gray-500 p-1 rounded-md mb-2 text-gray-800 dark:text-white">
+          Create a post
+        </p>
+      </Link>
+
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
       </div>

@@ -19,5 +19,6 @@ export default async function RecentPosts({limit}) {
         {posts && posts.map((post) => <PostCard key={post._id} post={post} />)}
       </div>
     </div>
-  );
+  )
+  ;
 }
