@@ -22,7 +22,7 @@ export const POST = async (req) => {
         ],
       }),
     })
-      .sort({ updatedAt: sortDirection })
+      .sort({ createdAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
 
