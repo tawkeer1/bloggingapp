@@ -1,13 +1,13 @@
 import Post from "@/lib/models/post.model";
 import { connect } from "@/lib/mongodb/mongoose";
-import { auth } from "@clerk/nextjs";
+import { getAuth } from "@clerk/nextjs/server";
 
 export const POST = async (req) => {
   try {
     await connect();
 
     // Get user ID from Clerk
-    const { userId } = auth();
+    const { userId } = getAuth(req);
     if (!userId) {
       return new Response("Unauthorized", { status: 401 });
     }
@@ -20,24 +20,20 @@ export const POST = async (req) => {
       return new Response("Post not found", { status: 404 });
     }
 
-    // Check if user already liked the post
+    // Toggle like (add/remove userId from likes array)
     const hasLiked = post.likes.includes(userId);
-
     if (hasLiked) {
-      // Unlike (remove userId)
-      post.likes = post.likes.filter((id) => id !== userId);
+      post.likes = post.likes.filter((id) => id !== userId); // Unlike
     } else {
-      // Like (add userId)
-      post.likes.push(userId);
+      post.likes.push(userId); // Like
     }
 
     await post.save();
 
-    return new Response(JSON.stringify({ 
-      success: true, 
-      liked: !hasLiked, 
-      like_count: post.likes.length 
-    }), { status: 200 });
+    return new Response(
+      JSON.stringify({ success: true, liked: !hasLiked, like_count: post.likes.length }),
+      { status: 200 }
+    );
 
   } catch (err) {
     console.error("Error updating likes:", err);
@@ -56,6 +52,9 @@ export const GET = async (req) => {
       return new Response("Missing slug parameter", { status: 400 });
     }
 
+    // Get user ID from Clerk
+    const { userId } = getAuth(req);
+
     // Fetch post by slug
     const post = await Post.findOne({ slug });
 
@@ -63,11 +62,10 @@ export const GET = async (req) => {
       return new Response("Post not found", { status: 404 });
     }
 
-    return new Response(JSON.stringify({ 
-      success: true, 
-      like_count: post.likes.length, 
-      liked: post.likes.includes(auth().userId) 
-    }), { status: 200 });
+    return new Response(
+      JSON.stringify({ success: true, like_count: post.likes.length, liked: userId ? post.likes.includes(userId) : false }),
+      { status: 200 }
+    );
 
   } catch (err) {
     console.error("Error fetching likes:", err);
