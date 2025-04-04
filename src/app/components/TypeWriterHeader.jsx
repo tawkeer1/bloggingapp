@@ -38,7 +38,7 @@ const TypeWriterHeader = () => {
         </div>
         <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
           Discover a variety of articles and tutorials on topics such as web
-          development, software engineering, and programming languages, all
+          development, software engineering, programming languages and even general blogs all
           brought to you through a blog built with Next.js and{" "}
           <a
             href="https://go.clerk.com/fgJHKlt"
@@ -47,7 +47,7 @@ const TypeWriterHeader = () => {
           >
             Clerk
           </a>
-          .
+          I have tried to make UI of this website as simplisitic as possible and i reckon dark mode looks even better.
         </p>
         <Link
           href="/search"
