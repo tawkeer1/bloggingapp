@@ -24,7 +24,7 @@ const TypeWriterHeader = () => {
             </h1>
 
             {/* Shortened text for small screens */}
-            <h1 className=" font-bold text-3xl lg:text-6xl max-w-full hidden max-[385px]:block text-[#04daea]">
+            <h1 className=" font-bold text-3xl lg:text-6xl max-w-full hidden max-[385px]:block text-[#00383c] dark:text-[#04daea] font-roboto">
               Welcome
               <span className="inline-flex items-center">
                 <img
