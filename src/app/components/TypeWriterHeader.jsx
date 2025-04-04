@@ -47,7 +47,7 @@ const TypeWriterHeader = () => {
           >
             Clerk
           </a>
-          {" "} have tried to make UI of this website as simplisitic as possible and i reckon dark mode looks even better..
+          {" "} I have tried to make UI of this website as simplisitic as possible and i reckon dark mode looks even better..
         </p>
         <Link
           href="/search"

@@ -1,7 +1,7 @@
 "use client";
 import { Button, Navbar, TextInput } from "flowbite-react";
 import Link from "next/link";
-import { AiOutlineSearch } from "react-icons/ai";
+import { FaSearch } from "react-icons/fa";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -13,6 +13,7 @@ import Image from "next/image";
 import { FaHome } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import { GoProjectRoadmap } from "react-icons/go";
+import { RiContactsLine } from "react-icons/ri";
 export default function Header() {
   const path = usePathname();
   const { theme, setTheme } = useTheme();
@@ -56,25 +57,23 @@ export default function Header() {
           type="text"
           placeholder="Search..."
           className="hidden lg:inline focus:ring-0 focus:outline-none"
-          rightIcon={AiOutlineSearch}
+          rightIcon={FaSearch}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <Button
         href="/search"
-        className="w-8 h-8 mt-1 sm:mt-0 sm:w-12 sm:h-10 lg:hidden flex justify-center items-center handle-small focus:ring-0 focus:outline-none "
+        className="w-8 h-8 mt-1 sm:mt-0 sm:w-14 sm:h-12 lg:hidden flex justify-center items-center handle-small focus:ring-0 focus:outline-none border-none"
         color="gray"
-        pill
       >
-        <AiOutlineSearch />
+        <FaSearch />
       </Button>
       <div className="flex gap-2 md:order-2 ">
         <Button
-          className="w-8 h-8 mt-1.5 mr-2 font-bold text-xl sm:mt-0 sm:w-12 sm:h-10 sm:inline flex justify-center items-center handle-small focus:ring-0 focus:outline-none 
-          outline-none"
+          className="w-8 h-8 mt-1.5 mr-2 font-bold sm:mt-0 sm:w-14 sm:h-12 sm:inline flex justify-center items-center handle-small focus:ring-0 focus:outline-none 
+          outline-none border-none"
           color="gray"
-          pill
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
@@ -132,6 +131,16 @@ export default function Header() {
             Projects
           </Navbar.Link>
         </Link>
+        {/* <Link href="/contact">
+          <Navbar.Link
+            active={path === "/contact"}
+            as={"div"}
+            className="flex items-center border-none outline-none"
+          >
+            <RiContactsLine className="mr-2" />
+            Social Media
+          </Navbar.Link>
+        </Link> */}
       </Navbar.Collapse>
     </Navbar>
   );

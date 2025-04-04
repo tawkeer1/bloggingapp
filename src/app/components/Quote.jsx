@@ -13,7 +13,7 @@ const Quote = () => {
 useEffect(() => {
   const timer = setTimeout(() => {
     setShowQuote(true);
-  }, 15000);
+  }, 8000);
 
   return () => clearTimeout(timer);
 }, []);
