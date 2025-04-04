@@ -10,7 +10,7 @@ const TypeWriterHeader = () => {
         <div className="max-w-6xl containertypewriter text-center p-4">
           <div className="text-center">
             {/* Default text */}
-            <h1 className="pb-5 typed-out font-bold text-3xl lg:text-6xl max-w-full max-[385px]:hidden flex items-center gap-2">
+            <h1 className="pb-5 typed-out font-bold text-3xl lg:text-6xl max-w-full max-[385px]:hidden flex items-center gap-2 text-[#04daea] font-roboto">
               Welcome to my Blog
               <span className="inline-flex items-center">
                 <Image
@@ -24,7 +24,7 @@ const TypeWriterHeader = () => {
             </h1>
 
             {/* Shortened text for small screens */}
-            <h1 className=" font-bold text-3xl lg:text-6xl max-w-full hidden max-[385px]:block">
+            <h1 className=" font-bold text-3xl lg:text-6xl max-w-full hidden max-[385px]:block text-[#04daea]">
               Welcome
               <span className="inline-flex items-center">
                 <img
@@ -38,7 +38,7 @@ const TypeWriterHeader = () => {
         </div>
         <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
           Discover a variety of articles and tutorials on topics such as web
-          development, software engineering, programming languages and even general blogs all
+          development, software engineering, and programming languages, all
           brought to you through a blog built with Next.js and{" "}
           <a
             href="https://go.clerk.com/fgJHKlt"
@@ -47,7 +47,7 @@ const TypeWriterHeader = () => {
           >
             Clerk
           </a>
-          I have tried to make UI of this website as simplisitic as possible and i reckon dark mode looks even better.
+          {" "} have tried to make UI of this website as simplisitic as possible and i reckon dark mode looks even better..
         </p>
         <Link
           href="/search"

@@ -49,18 +49,19 @@ body {
   border-right: 0.15em solid white; /* Cursor effect */
   white-space: nowrap;
   font-size: 1.6rem;
-  line-height: 0.5rem; /* Set the same as font-size for full height */
-  animation: typing 2s steps(30, end) forwards, blink 0.6s step-end infinite;
+  line-height: 0.5rem;
+  animation: typing 2s steps(30, end) forwards,
+             blink 2s step-end forwards; /* Same duration as typing, stops after */
 }
-
 
 @keyframes typing {
   from { width: 0ch; }
-  to { width: 21ch; } /* Adjust to match text length */
+  to { width: 21ch; }
 }
 
 @keyframes blink {
-  50% { border-color: transparent; }
+  0%, 50% { border-color: white; } /* Blink during first half */
+  51%, 100% { border-color: transparent; } /* Hide after 50% */
 }
 
 
