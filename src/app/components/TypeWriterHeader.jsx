@@ -6,11 +6,11 @@ const TypeWriterHeader = () => {
   return (
     <>
       {/* inline-block pb-5 text-3xl font-bold lg:text-6xl max-[456px]:hidden */}
-      <div className="text-gray-700 smalldevicemargin flex flex-col gap-6 text-center mx-6 lg:mx-auto my-4 p-10 px-6 max-w-6xl bg-gray-300 dark:bg-[#2A2A2A] dark:text-white shadow-xl rounded-lg ">
+      <div className="text-gray-700 smalldevicemargin flex flex-col gap-6 text-center mx-6 lg:mx-auto my-4 p-10 px-6 max-w-6xl bg-gray-300 dark:bg-[#2A2A2A] dark:text-white shadow-xl rounded-lg mt-10">
         <div className="max-w-6xl containertypewriter text-center p-4">
           <div className="text-center">
             {/* Default text */}
-            <h1 className="pb-5 typed-out font-bold text-3xl lg:text-6xl max-w-full max-[385px]:hidden flex items-center gap-2 text-[#04daea] font-roboto">
+            <h1 className="pb-5 typed-out font-bold text-3xl lg:text-6xl max-w-full max-[385px]:hidden flex items-center gap-2 text-[#00383c]  dark:text-[#04daea] font-roboto">
               Welcome to my Blog
               <span className="inline-flex items-center">
                 <Image
