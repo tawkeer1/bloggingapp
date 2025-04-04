@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import quotes from "../constants";
 import { MdCancel } from "react-icons/md";
@@ -8,18 +8,25 @@ import Link from "next/link";
 
 const Quote = () => {
   const [showQuote, setShowQuote] = useState(false);
-  const [randomQuote, setRandomQuote] = useState({});
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowQuote(true);
-    }, 7000);
+  const [dailyQuote, setDailyQuote] = useState({});
 
-    return () => clearTimeout(timer);
-  }, []);
-  useEffect(() => {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    setRandomQuote(randomQuote);
-  }, []);
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setShowQuote(true);
+  }, 15000);
+
+  return () => clearTimeout(timer);
+}, []);
+
+useEffect(() => {
+  const today = new Date();
+  const daysSinceEpoch = Math.floor(today.getTime() / 86400000); 
+
+  const index = daysSinceEpoch % quotes.length;
+  setDailyQuote(quotes[index]);
+}, [quotes]);
+
+
   return (
     <div className="flex justify-center items-center">
       <AnimatePresence>
@@ -31,20 +38,23 @@ const Quote = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="rounded-lg bg-gray-200 dark:bg-[#2A2A2A] p-4 shadow-lg w-full max-w-xs break-words"
           >
+            <div>
+            <p className="text-lg font-light text-[#00383c]  dark:text-[#04daea] mb-2">Quote of the day</p>
             {showQuote && (
               <MdCancel
-                className="absolute top-5 right-2 text-md text-gray-500 hover:text-gray-700 cursor-pointer"
-                onClick={() => setShowQuote(false)}
+              className="absolute top-5 right-2 text-md text-gray-500 hover:text-gray-700 cursor-pointer"
+              onClick={() => setShowQuote(false)}
               />
             )}
-            {showQuote && randomQuote && (
+            {showQuote && dailyQuote && (
               <div>
                 <p className="text-lg font-semibold whitespace-normal break-words">
-                  {randomQuote.text}
+                  {dailyQuote.text}
                 </p>
-                <p className="text-sm text-right">- {randomQuote.author}</p>
+                <p className="text-sm text-right">- {dailyQuote.author}</p>
               </div>
             )}
+        </div>
           </motion.div>
         )}
       </AnimatePresence>
