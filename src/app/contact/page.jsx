@@ -10,78 +10,43 @@ import {
   } from "react-icons/bs";
 const page = () => {
   return (
-    <div className='flex justify-center items-center min-h-screen'>
-      <Footer
-            container
-            className="border border-t-8 border-gray-600 dark:bg-[#1F1F1F]"
-          >
-            <div className="w-full max-w-7xl mx-auto">
-              <div className="grid w-full justify-between sm:flex md:grid-cols-1">
-                <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">
-                  <div>
-                    <Footer.Title title="About" />
-                    <Footer.LinkGroup col>
-                      <Footer.Link
-                        href="https://portfolio-nine-livid-49.vercel.app/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Portfolio
-                      </Footer.Link>
-                      <Footer.Link
-                        href="/about"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Tawkeer&apos;s Blog
-                      </Footer.Link>
-                    </Footer.LinkGroup>
-                  </div>
-                  <div>
-                    <Footer.Title title="Follow us" />
-                    <Footer.LinkGroup col>
-                      <Footer.Link
-                        href="https://github.com/tawkeer1"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Github
-                      </Footer.Link>
-                    </Footer.LinkGroup>
-                  </div>
-                  <div>
-                    <Footer.Title title="Legal" />
-                    <Footer.LinkGroup col>
-                      <Footer.Link href="#">Privacy Policy</Footer.Link>
-                      <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
-                    </Footer.LinkGroup>
-                  </div>
-                </div>
-              </div>
-              <Footer.Divider />
-              <div className="w-full sm:flex sm:items-center sm:justify-between">
-                <Footer.Copyright
-                  href="#"
-                  by="Tawkeer's blog"
-                  year={new Date().getFullYear()}
-                />
-                <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-                  <Footer.Icon
-                    href="https://www.facebook.com/profile.php?id=100086531005168"
-                    icon={BsFacebook}
-                  />
-                  <Footer.Icon
-                    href="http://instagram.com/towqeer_ahmad/"
-                    icon={BsInstagram}
-                  />
-                  <Footer.Icon href="https://github.com/tawkeer1" icon={BsGithub} />
-                  <Footer.Icon href="https://www.linkedin.com/in/tawkeer-ahmad-14079229a/" icon={BsLinkedin} />
-                </div>
-              </div>
-            </div>
-          </Footer>
+    <div className="min-h-screen dark:bg-gray-800 dark:text-white bg-gray-50 flex items-center justify-center px-4">
+      <div className="max-w-2xl w-full bg-white dark:bg-gray-700 dark:text-white shadow-lg rounded-2xl p-8">
+        <h1 className="text-3xl font-bold mb-6 text-center">Write to Us</h1>
+        
+        <form className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium ">Name</label>
+            <input type="text" id="name" name="name" required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium ">Email</label>
+            <input type="email" id="email" name="email" required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label htmlFor="subject" className="block text-sm font-medium ">Subject</label>
+            <input type="text" id="subject" name="subject"
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium ">Message</label>
+            <textarea id="message" name="message" rows={4} required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"></textarea>
+          </div>
+
+          <button type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+            Send Message
+          </button>
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
 export default page
