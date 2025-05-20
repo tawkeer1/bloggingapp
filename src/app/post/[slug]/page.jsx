@@ -1,4 +1,5 @@
 import CallToAction from "@/app/components/CallToAction";
+import Comments from "@/app/components/Comment";
 import Likes from "@/app/components/Likes";
 import RecentPosts from "@/app/components/RecentPosts";
 import { useUser } from "@clerk/nextjs";
@@ -49,7 +50,6 @@ export default async function PostPage({ params }) {
       />
       <div className="flex justify-evenly items-center gap-10 p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
-        <Likes slug={params.slug} initialLikes={post.likes}/>
         <span className="italic">
           {post && (post?.content?.length / 1000).toFixed(0)} mins read
         </span>
@@ -68,6 +68,8 @@ export default async function PostPage({ params }) {
         </p>
       </Link>
 
+        <Likes slug={params.slug} initialLikes={post.likes}/>
+        <Comments slug={post.slug} />
       <div className="max-w-4xl mx-auto w-full">
         <CallToAction />
       </div>

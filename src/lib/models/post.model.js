@@ -27,6 +27,10 @@ const postSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    comment : {
+      type: [String],
+      default: [],
+    },
     slug: {
       type: String,
       required: true,
