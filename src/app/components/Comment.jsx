@@ -6,7 +6,7 @@ import { Alert, Button, Textarea } from "flowbite-react";
 const Comments = ({ slug }) => {
   const { user } = useUser();
   const userId = user?.id;
-  const username = user?.fullName || "Anonymous";
+  const username = user?.fullName || user?.emailAddresses[0] || "Anonymous";
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -93,13 +93,16 @@ const Comments = ({ slug }) => {
         {comments.length === 0 ? (
           <p className="text-gray-500">No comments yet.</p>
         ) : (
+          <div className="bg-gray-700 p-2 mb-2 rounded-sm">
           <ul className="space-y-2">
             {comments.map((comment, index) => (
-              <li key={index} className="bg-gray-500 p-2 rounded text-sm">
-                {comment}
+              <li key={index} className="p-2 rounded text-sm">
+                <span className="font-bold">{comment.slice(0, comment.indexOf(":") + 1)}</span>
+                <span className="ml-2">{comment.slice(comment.indexOf(":") + 1)}</span>
               </li>
             ))}
           </ul>
+            </div>
         )}
       </div>
     </div>
