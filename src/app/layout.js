@@ -6,7 +6,6 @@ import ThemeCom from "./components/ThemeCom";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeModeScript } from "flowbite-react";
 import Footer from "./components/Footer";
-import Snowfall from "react-snowfall";
 import SnowFall from "./SnowFall";
 
 const geistSans = localFont({
