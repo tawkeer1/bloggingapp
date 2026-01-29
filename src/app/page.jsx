@@ -4,6 +4,8 @@ import RecentPosts from "./components/RecentPosts";
 import TypeWriterHeader from "./components/TypeWriterHeader";
 import dynamic from "next/dynamic";
 import QuoteWrapper from "./components/QuoteWrapper";
+import Snowfall from "react-snowfall";
+import SnowFall from "./SnowFall";
 
 export default async function Home() {
   let posts = null;
@@ -20,6 +22,7 @@ export default async function Home() {
   }
   return (
     <div className="relative min-h-screen">
+      
       <TypeWriterHeader />
       <div className="max-w-[200px] max-h-30 sticky right-0 top-60 z-40">
         <QuoteWrapper />

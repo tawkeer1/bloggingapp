@@ -17,6 +17,9 @@ module.exports = {
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },
+      animation: {
+        'spin-slow': 'spin 5s linear infinite',
+      },
     },
   },
   plugins: [flowbite.plugin()],
